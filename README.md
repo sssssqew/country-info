@@ -13,6 +13,7 @@ country-info
 ```
 [set frontend]
 git clone https://github.com/sssssqew/country-info.git front
+cd front
 npm install
 npm start 
 open localhost:8081
