@@ -1,6 +1,6 @@
 import * as types from '~/actions/actionTypes';
 
-const initialState = { isLoading: false, isDeleted: false }
+const initialState = { isLoading: false, isDeleted: false, sortState: false }
 
 export default function countryReducer(
 	state = initialState, action = null) {
@@ -39,7 +39,14 @@ export default function countryReducer(
 	  return { ...state, isLoading: false, countries: action.data };
 	case types.SEARCH_COUNTRY_FAILED:
 	  return { ...state, isLoading: false, error: action.error };
-	  
+
+	  case types.SORT_COUNTRY:
+	  return { ...state, isLoading: true };
+	case types.SORT_COUNTRY_SUCCESS:
+	  return { ...state, isLoading: false, sortState: action.data.sortState, countries: action.data.countries_sorted };
+	case types.SORT_COUNTRY_FAILED:
+	  return { ...state, isLoading: false, error: action.error };
+
 		default:
 		  return state;
 	}

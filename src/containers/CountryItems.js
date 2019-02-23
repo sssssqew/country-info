@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import * as countryActions from '~/actions/countryActions';
 import * as searchActions from '~/actions/searchActions';
+import * as sortActions from '~/actions/sortActions';
 import Country from '~/components/Country';
 import { Table, Button, Alert } from 'react-bootstrap';
 import AddForm from '~/components/AddForm';
@@ -11,6 +12,9 @@ import SearchForm from '~/components/SearchForm';
 
 
 class CountryItems extends Component {
+	handleSort(header){
+		this.props.sortActions.sortCountry(header);
+	}
 	handleSerch(keyword){
 		this.props.searchActions.searchCountry(keyword);
 	}
@@ -35,10 +39,17 @@ class CountryItems extends Component {
 
 	render(){
 		let countryList = null;
-		const headers = ['#', 'Code', 'Name', 'Capital', 'Phone', 'Remove'];
-		const { countries, isDeleted, error, isLoading } = this.props;
+		const headers = ['#', 'code', 'name', 'capital', 'phone', 'remove'];
+		const { countries, isDeleted, sortState, error, isLoading } = this.props;
 
-		const headersTags = headers.map( (header, i) => (<th key={i}>{header}</th>));
+		const headersTags = headers.map( (header, i) => {
+			let result = null;
+			if(header === "#" || header === "remove" ){
+				return (<th key={i}>{header}</th>);
+			}else {
+				return (<th key={i}><Button variant="dark" onClick={() => this.handleSort(header)}>{header}</Button></th>);	
+			}
+		});
 
 		if(countries){
 	      countryList = countries.map( (country, i) => (
@@ -51,7 +62,7 @@ class CountryItems extends Component {
 	      ))
 	    }
 
-	    console.log(isDeleted);
+	    console.log(sortState);
 
 		return (
 			<div>
@@ -93,6 +104,7 @@ CountryItems.propTypes = {
 const mapStateToProps = state => ({
   countries: state.country.countries,
   isDeleted: state.country.isDeleted,
+  sortState: state.country.sortState,
   error: state.country.error,
   isLoading: state.country.isLoading,
 });
@@ -100,6 +112,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   countryActions: bindActionCreators(countryActions, dispatch),
   searchActions: bindActionCreators(searchActions, dispatch),
+  sortActions: bindActionCreators(sortActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CountryItems);
