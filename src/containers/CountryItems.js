@@ -12,6 +12,17 @@ import SearchForm from '~/components/SearchForm';
 
 
 class CountryItems extends Component {
+	disable(){
+		console.log(this.props);
+					setTimeout(() => {
+						this.props.countryActions.disableDeleteState();
+					}, 1500);
+					return (
+						<Alert variant='success'>
+					      Deleted Success !
+					    </Alert>
+					)
+				} 
 	handleSort(header){
 		this.props.sortActions.sortCountry(header);
 	}
@@ -28,10 +39,6 @@ class CountryItems extends Component {
 		this.props.countryActions.deleteCountry(id);
 	}
 
-	// showMore(){
-	// 	this.props.countryActions.getCountry();
-	// }
-
 	componentDidMount(){
 		this.props.countryActions.getCountry();
 
@@ -40,7 +47,7 @@ class CountryItems extends Component {
 	render(){
 		let countryList = null;
 		const headers = ['#', 'code', 'name', 'capital', 'phone', 'remove'];
-		const { countries, isDeleted, sortState, error, isLoading } = this.props;
+		const { countries, deleteState, sortState, error, isLoading } = this.props;
 
 		const headersTags = headers.map( (header, i) => {
 			let result = null;
@@ -62,19 +69,15 @@ class CountryItems extends Component {
 	      ))
 	    }
 
-	    console.log(sortState);
+	    console.log(deleteState);
 
 		return (
 			<div>
-				{isDeleted ? 
-						<Alert variant='success'>
-					      Delete Success !
-					    </Alert>
-					 : null}
 				
 				 <SearchForm onSubmit={this.handleSerch.bind( this )} /><br/>
 				<AddForm onSubmit={this.handleCreate.bind( this )} />
 				{error && <h3>Error: {error && error.response && error.response.data ? error.response.data : null}</h3>}
+				{deleteState ? this.disable() : null}
 				{isLoading ? <h1>Loading ...</h1>: (
 				   <Table striped bordered hover 
 				   				responsive style={{marginTop: '2rem'}}>
@@ -103,7 +106,7 @@ CountryItems.propTypes = {
 
 const mapStateToProps = state => ({
   countries: state.country.countries,
-  isDeleted: state.country.isDeleted,
+  deleteState: state.country.deleteState,
   sortState: state.country.sortState,
   error: state.country.error,
   isLoading: state.country.isLoading,

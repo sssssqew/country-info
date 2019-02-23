@@ -15,3 +15,7 @@ export function updateCountry(subscriber, msisdn) {
 export function deleteCountry(id) {
   return { type: types.DELETE_COUNTRY, id };
 }
+
+export function disableDeleteState(){
+	return { type: types.DELETE_COUNTRY_FAILED }
+}
