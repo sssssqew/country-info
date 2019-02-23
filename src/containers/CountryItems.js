@@ -96,7 +96,7 @@ class CountryItems extends Component {
 			<div>
 				 <SearchForm onSubmit={this.handleSerch.bind( this )} /><br/>
 				<AddForm onSubmit={this.handleCreate.bind( this )} />
-				<Button variant="warning" onClick={() => this.handleShowMore()}>Show More</Button>
+				{/*<Button variant="warning" onClick={() => this.handleShowMore()}>Show More</Button>*/}
 				{error && <h3>Error: {error && error.response && error.response.data ? error.response.data : null}</h3>} <br/>
 				{deleteState ? this.handleDisable() : null}
 				{isLoading ? <h1>Loading ...</h1>: (
