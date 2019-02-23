@@ -12,7 +12,7 @@ function* sortCountry(action) {
 
     Array.prototype.sortBy = helpers.sortByValue;
     const countries_sorted = countries.sortBy(header, sortState);
-    console.log(countries_sorted);
+    // console.log(countries_sorted);
 
     yield put({ type: types.SORT_COUNTRY_SUCCESS, data: {countries_sorted: countries_sorted, sortState:!sortState }});
   } catch (error) {

@@ -18,7 +18,7 @@ export default {
 		    return array.filter(o =>
 		        Object.keys(o).some(k => o[k].toLowerCase().includes(string.toLowerCase())));
 		},
-	sortByValue: function(p, state) {
+	sortByValue: function sortByValue(p, state) {
 		  return this.slice(0).sort(function(a,b) {
 		  	if(state) {
 		  		return (a[p] < b[p]) ? 1 : (a[p] > b[p]) ? -1 : 0;
