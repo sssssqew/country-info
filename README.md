@@ -12,8 +12,7 @@ country-info
 
 ```
 [set frontend]
-mkdir front && cd front
-git clone https://github.com/sssssqew/country-info.git
+git clone https://github.com/sssssqew/country-info.git front
 npm install
 npm start 
 open localhost:8081
