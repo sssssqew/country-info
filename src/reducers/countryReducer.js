@@ -32,6 +32,14 @@ export default function countryReducer(
 		  return { ...state, isLoading: false, countries: action.data, isDeleted: true };
 		case types.DELETE_COUNTRY_FAILED:
 		  return { ...state, isLoading: false, error: action.error,  isDeleted: false };
+
+	  case types.SEARCH_COUNTRY:
+	  return { ...state, isLoading: true };
+	case types.SEARCH_COUNTRY_SUCCESS:
+	  return { ...state, isLoading: false, countries: action.data };
+	case types.SEARCH_COUNTRY_FAILED:
+	  return { ...state, isLoading: false, error: action.error };
+	  
 		default:
 		  return state;
 	}

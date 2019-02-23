@@ -3,26 +3,33 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import * as countryActions from '~/actions/countryActions';
+import * as searchActions from '~/actions/searchActions';
 import Country from '~/components/Country';
 import { Table, Button, Alert } from 'react-bootstrap';
 import AddForm from '~/components/AddForm';
+import SearchForm from '~/components/SearchForm';
+
 
 class CountryItems extends Component {
+	handleSerch(keyword){
+		this.props.searchActions.searchCountry(keyword);
+	}
+
 	handleCreate(country){
-        this.props.actions.createCountry(country);
+        this.props.countryActions.createCountry(country);
   }
 
 	handleRemove(id){
 		console.log(this.props);
-		this.props.actions.deleteCountry(id);
+		this.props.countryActions.deleteCountry(id);
 	}
 
-	showMore(){
-		this.props.actions.getCountry();
-	}
+	// showMore(){
+	// 	this.props.countryActions.getCountry();
+	// }
 
 	componentDidMount(){
-		this.props.actions.getCountry();
+		this.props.countryActions.getCountry();
 
 	}
 
@@ -34,7 +41,6 @@ class CountryItems extends Component {
 		const headersTags = headers.map( (header, i) => (<th key={i}>{header}</th>));
 
 		if(countries){
-			console.log(countries);
 	      countryList = countries.map( (country, i) => (
 	      	<Country 
 		      	key={country.id} 
@@ -51,10 +57,11 @@ class CountryItems extends Component {
 			<div>
 				{isDeleted ? 
 						<Alert variant='success'>
-					      하하
+					      Delete Success !
 					    </Alert>
 					 : null}
-				{/*<Button onClick={() => this.showMore()}>Show More</Button>*/}
+				
+				 <SearchForm onSubmit={this.handleSerch.bind( this )} /><br/>
 				<AddForm onSubmit={this.handleCreate.bind( this )} />
 				{error && <h3>Error: {error && error.response && error.response.data ? error.response.data : null}</h3>}
 				{isLoading ? <h1>Loading ...</h1>: (
@@ -77,7 +84,7 @@ class CountryItems extends Component {
 }
 
 CountryItems.propTypes = {
-  actions: PropTypes.object.isRequired,
+  countryActions: PropTypes.object.isRequired,
   countries: PropTypes.array,
   error: PropTypes.object,
 };
@@ -91,7 +98,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(countryActions, dispatch),
+  countryActions: bindActionCreators(countryActions, dispatch),
+  searchActions: bindActionCreators(searchActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CountryItems);

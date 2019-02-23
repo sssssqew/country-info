@@ -56,7 +56,7 @@ let AddForm = props => {
 
 AddForm = reduxForm({
   // a unique name for the form
-  form: 'contact'
+  form: 'add'
 })(AddForm)
 
 export default AddForm

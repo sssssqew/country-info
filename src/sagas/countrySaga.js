@@ -1,9 +1,8 @@
 import { call, put, take, takeLatest, select, actionChannel, all } from 'redux-saga/effects';
 import * as types from '~/actions/actionTypes';
 import api from '~/lib/apiEndpoints';
-import  create_country_model from '~/lib/helpers';
+import  helpers from '~/lib/helpers';
 import * as selectors from './selectors';
-
 
 function* createCountry(action) {
   try {
@@ -48,8 +47,8 @@ function* fetchCountry(action) {
       fetch(`${api.API_BASE_URL}/${api.ENDPOINTS.PHONE}`, { timeout: TIMEOUT }).then(res => res.json()),
     ])
 
-    const countries = create_country_model(codes, names, capitals, phones);
-   console.log(countries);
+    const countries = helpers.create_country_model(codes, names, capitals, phones);
+   // console.log(countries);
     yield put({ type: types.COUNTRY_RECEIVED, data: countries });
   } catch (error) {
     yield put({ type: types.COUNTRY_REQUEST_FAILED, error });
