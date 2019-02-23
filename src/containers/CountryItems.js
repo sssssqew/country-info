@@ -12,7 +12,15 @@ import SearchForm from '~/components/SearchForm';
 
 
 class CountryItems extends Component {
-	disable(){
+	constructor() {
+	  super();
+	  this.handleScroll = this.handleScroll.bind(this);
+	}
+
+	handleShowMore(){
+		this.props.countryActions.getCountry();
+	}
+	handleDisable(){
 		console.log(this.props);
 					setTimeout(() => {
 						this.props.countryActions.disableDeleteState();
@@ -40,14 +48,27 @@ class CountryItems extends Component {
 	}
 
 	componentDidMount(){
+		window.addEventListener('scroll', this.handleScroll, false);
 		this.props.countryActions.getCountry();
 
 	}
 
+	componentWillUnmount() {
+	    window.removeEventListener('scroll', this.handleScroll, false);
+	  }
+
+	handleScroll() {
+	    if (window.innerHeight + document.documentElement.scrollTop
+        === document.documentElement.offsetHeight
+      ) {
+      	this.handleShowMore();
+      }
+  }
+
 	render(){
 		let countryList = null;
 		const headers = ['#', 'code', 'name', 'capital', 'phone', 'remove'];
-		const { countries, deleteState, sortState, error, isLoading } = this.props;
+		const { countries, deleteState, sortState, showNums, error, isLoading } = this.props;
 
 		const headersTags = headers.map( (header, i) => {
 			let result = null;
@@ -69,15 +90,15 @@ class CountryItems extends Component {
 	      ))
 	    }
 
-	    console.log(deleteState);
+	    console.log(showNums);
 
 		return (
 			<div>
-				
 				 <SearchForm onSubmit={this.handleSerch.bind( this )} /><br/>
 				<AddForm onSubmit={this.handleCreate.bind( this )} />
-				{error && <h3>Error: {error && error.response && error.response.data ? error.response.data : null}</h3>}
-				{deleteState ? this.disable() : null}
+				<Button variant="warning" onClick={() => this.handleShowMore()}>Show More</Button>
+				{error && <h3>Error: {error && error.response && error.response.data ? error.response.data : null}</h3>} <br/>
+				{deleteState ? this.handleDisable() : null}
 				{isLoading ? <h1>Loading ...</h1>: (
 				   <Table striped bordered hover 
 				   				responsive style={{marginTop: '2rem'}}>
@@ -108,6 +129,7 @@ const mapStateToProps = state => ({
   countries: state.country.countries,
   deleteState: state.country.deleteState,
   sortState: state.country.sortState,
+  showNums: state.country.showNums,
   error: state.country.error,
   isLoading: state.country.isLoading,
 });

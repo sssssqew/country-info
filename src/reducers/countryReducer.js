@@ -1,6 +1,6 @@
 import * as types from '~/actions/actionTypes';
 
-const initialState = { isLoading: false, deleteState: false, sortState: false }
+const initialState = { isLoading: false, deleteState: false, sortState: false, showNums: 10 }
 
 export default function countryReducer(
 	state = initialState, action = null) {
@@ -8,7 +8,7 @@ export default function countryReducer(
 		case types.GET_COUNTRY:
 		  return { ...state, isLoading: true };
 		case types.COUNTRY_RECEIVED:
-		  return { ...state, isLoading: false, countries: action.data };
+		  return { ...state, isLoading: false, countries: action.data.countries_concated,  showNums: action.data.showNums };
 		case types.COUNTRY_REQUEST_FAILED:
 		  return { ...state, isLoading: false, error: action.error };
 		

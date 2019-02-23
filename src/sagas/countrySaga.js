@@ -39,7 +39,13 @@ function* deleteCountry(action) {
 function* fetchCountry(action) {
   try {
     const TIMEOUT = 60000;
+    const showNums = yield select(selectors.showNums);
+    let countries_prev = yield select(selectors.countries);
+    console.log(showNums);
   
+    countries_prev = countries_prev || [];
+      console.log(countries_prev);
+
     const [ codes, names, capitals, phones ] = yield all([
       fetch(`${api.API_BASE_URL}/${api.ENDPOINTS.CODE}`, { timeout: TIMEOUT }).then(res => res.json()),
       fetch(`${api.API_BASE_URL}/${api.ENDPOINTS.NAME}`, { timeout: TIMEOUT }).then(res => res.json()),
@@ -48,8 +54,11 @@ function* fetchCountry(action) {
     ])
 
     const countries = helpers.create_country_model(codes, names, capitals, phones);
+    const countries_part = countries.slice(showNums-10, showNums);
+    const countries_concated = countries_prev.concat(countries_part);
+  
    // console.log(countries);
-    yield put({ type: types.COUNTRY_RECEIVED, data: countries });
+    yield put({ type: types.COUNTRY_RECEIVED, data: {countries_concated:countries_concated, showNums:showNums+10 }  });
   } catch (error) {
     yield put({ type: types.COUNTRY_REQUEST_FAILED, error });
   }
