@@ -4,8 +4,8 @@ export function getCountry() {
   return { type: types.GET_COUNTRY };
 }
 
-export function createCountry() {
-  return { type: types.CREATE_COUNTRY };
+export function createCountry(country) {
+  return { type: types.CREATE_COUNTRY, country };
 }
 
 export function updateCountry(subscriber, msisdn) {

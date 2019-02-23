@@ -4,6 +4,25 @@ import api from '~/lib/apiEndpoints';
 import  create_country_model from '~/lib/helpers';
 import * as selectors from './selectors';
 
+
+function* createCountry(action) {
+  try {
+    const { country } = action;
+    const uuidv4 = require('uuid/v4');
+    const countries = yield select(selectors.countries);
+
+    const newCountry = {
+      id: uuidv4(),
+      ...country,
+    }
+    const countries_added = [...countries, newCountry];
+
+    yield put({ type: types.CREATE_COUNTRY_SUCCESS, data: countries_added });
+  } catch (error) {
+    yield put({ type: types.CREATE_COUNTRY_FAILED, error });
+  }
+}
+
 function* deleteCountry(action) {
   try {
     const { id } = action;
@@ -47,7 +66,7 @@ export function* countryWatcher() {
 
 export function* countrySaga() {
     yield all( [
-        // takeLatest(types.CREATE_COUNTRY, createCountry),
+        takeLatest(types.CREATE_COUNTRY, createCountry),
         // takeLatest(types.UPDATE_COUNTRY, updateCountry),
         takeLatest(types.DELETE_COUNTRY, deleteCountry),
     ])

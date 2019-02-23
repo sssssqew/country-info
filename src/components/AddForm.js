@@ -2,7 +2,7 @@ import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { FormGroup, FormControl, Button } from 'react-bootstrap';
 
-let ContactForm = props => {
+let AddForm = props => {
   const { handleSubmit } = props;
   // console.log(handleSubmit);
 
@@ -54,9 +54,9 @@ let ContactForm = props => {
   )
 }
 
-ContactForm = reduxForm({
+AddForm = reduxForm({
   // a unique name for the form
   form: 'contact'
-})(ContactForm)
+})(AddForm)
 
-export default ContactForm
+export default AddForm

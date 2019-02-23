@@ -5,15 +5,15 @@ import { bindActionCreators } from 'redux';
 import * as countryActions from '~/actions/countryActions';
 import Country from '~/components/Country';
 import { Table, Button, Alert } from 'react-bootstrap';
-import ContactForm from '~/components/ContactForm';
+import AddForm from '~/components/AddForm';
 
 class CountryItems extends Component {
-	submit(values){
-    // print the form values to the console
-    console.log(values)
+	handleCreate(country){
+        this.props.actions.createCountry(country);
   }
 
 	handleRemove(id){
+		console.log(this.props);
 		this.props.actions.deleteCountry(id);
 	}
 
@@ -34,6 +34,7 @@ class CountryItems extends Component {
 		const headersTags = headers.map( (header, i) => (<th key={i}>{header}</th>));
 
 		if(countries){
+			console.log(countries);
 	      countryList = countries.map( (country, i) => (
 	      	<Country 
 		      	key={country.id} 
@@ -54,8 +55,7 @@ class CountryItems extends Component {
 					    </Alert>
 					 : null}
 				{/*<Button onClick={() => this.showMore()}>Show More</Button>*/}
-				<ContactForm onSubmit={this.submit} />
-				{/*<Button onClick={() => this.handleAdd()}>Add Country</Button>*/}
+				<AddForm onSubmit={this.handleCreate.bind( this )} />
 				{error && <h3>Error: {error && error.response && error.response.data ? error.response.data : null}</h3>}
 				{isLoading ? <h1>Loading ...</h1>: (
 				   <Table striped bordered hover 
