@@ -3,6 +3,12 @@ Country Information Dashboard
 ```
 
 ```
+[Demo page in docker]
+```
+http://222.232.24.156:34002/
+
+
+```
 [folder structure]
 
 country-info 
