@@ -3,3 +3,4 @@ dist
 .eslintrc.js
 .idea
 .vscode
+sftp-config.json
