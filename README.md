@@ -6,6 +6,7 @@ Country Information Dashboard
 [Demo page in docker]
 ```
 http://222.232.24.156:34002/
+https://country-info-1b52a.firebaseapp.com/
 
 
 ```
